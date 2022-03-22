@@ -23,7 +23,7 @@ class Game
     # загаданного слова и пустой массив для дальнейшего сбора в него вводимых
     # букв.
     def initialize(word)
-      @letters = word.chars
+      @letters = word.upcase.chars
       @user_guesses = []
     end
   
