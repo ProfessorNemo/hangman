@@ -1,12 +1,20 @@
 require_relative 'lib/console_interface'
 require_relative 'lib/game'
+require 'pry-byebug'
+# binding.byebug
 
 # 1. Поздороваться
-puts "Всем привет!"
+puts 'Всем привет!'
 
 # 2. Загрузить случайное слово из файла
-word = File.readlines(__dir__ + '/data/words.txt', chomp: true).sample
-game = Game.new(word)
+words = File.readlines("#{__dir__}/data/words.txt", chomp: true)
+questions = File.readlines("#{__dir__}/data/questions.txt", chomp: true)
+
+index_word = words.index(words.sample)
+word = words[index_word]
+question = questions[index_word]
+
+game = Game.new(word, question)
 console_interface = ConsoleInterface.new(game)
 
 # 3. Пока не закончилась игра
@@ -21,6 +29,3 @@ end
 
 # 4. Вывести финальное состояние игры
 console_interface.print_out
-
-
-
