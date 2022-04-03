@@ -1,4 +1,4 @@
-#  Переопределение методов в сисетмном классе
+#  Переопределение методов в системном классе
 # class String
 #   def ==(other)
 #     return false unless other.is_a?(String)

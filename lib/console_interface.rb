@@ -64,6 +64,19 @@ class ConsoleInterface
     result.join(' ')
   end
 
+  def normalize_letter(letter) # принимаем букву в параметр
+    case letter
+    when 'Ё' then 'Е'
+    when 'Й' then 'И'
+    else letter
+    end
+  end
+
+  def normalized_letters
+    @letters.map { |letter| normalize_letter(letter) } # преобразуем букву в массиве букв
+  end
+
+
   # Получает массив ошибочных букв и склеивает их в строку вида "Х, У"
   def errors_to_show
     @game.errors.join(', ')
