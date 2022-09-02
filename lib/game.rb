@@ -1,19 +1,8 @@
-#  Переопределение методов в системном классе
-# class String
-#   def ==(other)
-#     return false unless other.is_a?(String)
-
-#     two_chars = [ord, other.ord].sort
-#     # из юникодовых таблиц: 1025 - Е, 1045 - Ё
-#     return true if two_chars == [1025, 1045]
-
-#     # вызов оригинального метода через super
-#     super
-#   end
-# end
+# frozen_string_literal: true
 
 class Game
   attr_reader :question
+
   # Количество допустимых ошибок
   TOTAL_ERRORS_ALLOWED = 7
 
@@ -45,7 +34,8 @@ class Game
     TOTAL_ERRORS_ALLOWED - errors_made
   end
 
-  def normalize_letter(letter) # принимаем букву в параметр
+  # принимаем букву в параметр
+  def normalize_letter(letter)
     case letter
     when 'Ё' then 'Е'
     when 'Й' then 'И'

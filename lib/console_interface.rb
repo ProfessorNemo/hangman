@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 class ConsoleInterface
   # В константе FIGURES будут лежать все текстовые файлы из папки figures,
   # помещённые в массив. Один элемент массива — одна строка с содержимым целого
   # файла.
   FIGURES =
-    Dir[__dir__ + '/../data/figures/*.txt']
-    .sort
+    Dir["#{__dir__}/../data/figures/*.txt"]
     .map { |file_name| File.read(file_name) }
 
   # На вход конструктор класса ConsoleInterface принимает экземпляр класса Game.
@@ -18,18 +19,18 @@ class ConsoleInterface
   # Выводит в консоль текущее состояние игры, используя данные из экземпляра
   # класса Game (количество ошибок, сколько осталось попыток и т.д.)
   def print_out
-    puts <<~END
+    puts <<~GAMESTATUS
       Вопрос: #{@game.question}
-      Слово: #{word_to_show}
-      #{figure}
-      Ошибки (#{@game.errors_made}): #{errors_to_show}
+      Слово: #{ColorizedString[word_to_show].colorize(:black).colorize(background: :light_white)}
+      #{ColorizedString[figure].colorize(:yellow)}
+      Ошибки (#{@game.errors_made}): #{ColorizedString[errors_to_show].colorize(:light_red)}
       У вас осталось ошибок: #{@game.errors_allowed}
-    END
+    GAMESTATUS
 
     if @game.won?
       puts 'Поздравляем, вы выиграли!'
     elsif @game.lost?
-      puts "Вы проиграли, загаданное слово: #{@game.word}"
+      puts "Вы проиграли, загаданное слово: #{ColorizedString[@game.word].colorize(:green)}"
     end
   end
 
@@ -64,7 +65,8 @@ class ConsoleInterface
     result.join(' ')
   end
 
-  def normalize_letter(letter) # принимаем букву в параметр
+  # принимаем букву в параметр
+  def normalize_letter(letter)
     case letter
     when 'Ё' then 'Е'
     when 'Й' then 'И'
@@ -76,7 +78,6 @@ class ConsoleInterface
     @letters.map { |letter| normalize_letter(letter) } # преобразуем букву в массиве букв
   end
 
-
   # Получает массив ошибочных букв и склеивает их в строку вида "Х, У"
   def errors_to_show
     @game.errors.join(', ')
@@ -84,7 +85,7 @@ class ConsoleInterface
 
   # Получает букву из пользовательского ввода, приводит её к верхнему регистру
   # и возвращает её
-  def get_input
+  def input
     print 'Введите следующую букву:'
     gets[0].upcase
   end

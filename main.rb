@@ -1,5 +1,6 @@
-require 'pry-byebug'
-# binding.byebug
+# frozen_string_literal: true
+
+require 'colorized_string'
 
 PW = 'lib/'
 %W[#{PW}console_interface #{PW}game #{PW}answer].each do |file|
@@ -26,7 +27,7 @@ until game.over?
 
   puts 'Введите слово, если знаете ответ. Или нажмите <enter> и продолжайте отгадывать по буквам'
   print '>'
-  input_answer = STDIN.gets.chomp
+  input_answer = $stdin.gets.chomp
 
   unless input_answer.empty?
     quick_response = Answer.new(input_answer, word, question, game)
@@ -36,7 +37,7 @@ until game.over?
   end
 
   #  3.2 Спросить очередную букву
-  letter = console_interface.get_input
+  letter = console_interface.input
   #  3.3 Обновить состояние игры
   game.play!(letter)
 end

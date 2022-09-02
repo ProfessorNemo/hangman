@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Answer
   attr_reader :letters, :input_answer
 
@@ -13,9 +15,9 @@ class Answer
 
   def normalize_letter(text)
     if text.include?('Ё')
-      text.join.gsub('Ё', 'Е').chars
+      text.join.tr('Ё', 'Е').chars
     elsif text.include?('Й')
-      text.join.gsub('Й', 'Е').chars
+      text.join.tr('Й', 'Е').chars
     else
       text
     end
@@ -23,18 +25,18 @@ class Answer
 
   def printing
     if won?
-      puts <<~END
+      puts <<~GAMESTATUS
         \nВопрос: #{@question}
-        Слово: #{letters.join}
-        #{FIG[@game.errors_made]}
+        Слово: #{ColorizedString[letters.join].colorize(:light_black).colorize(background: :light_white)}
+        #{ColorizedString[FIG[@game.errors_made]].colorize(:yellow)}
         Поздравляем, вы выиграли!
-      END
+      GAMESTATUS
     else
-      puts <<~END
+      puts <<~ANSWER
         Вопрос: #{@question}
-        #{FIG[TOTAL_ERRORS_ALLOWED]}
-        Вы проиграли, загаданное слово: #{letters.join}
-      END
+        #{ColorizedString[FIG[TOTAL_ERRORS_ALLOWED]].colorize(:yellow)}
+        Вы проиграли, загаданное слово: #{ColorizedString[letters.join].colorize(:green)}
+      ANSWER
     end
   end
 
